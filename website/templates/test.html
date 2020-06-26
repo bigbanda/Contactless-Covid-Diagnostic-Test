@@ -164,7 +164,7 @@ function replyfname(){
         speak("What is your last name?");
         getmessage("What is your last name?");
         autoscroll();
-        setTimeout(replylname, 3000);
+        setTimeout(replylname, 1000);
     }
 }
 function replylname(){
@@ -856,18 +856,6 @@ function replyQ17(){
           data.Q17="Do you cough up lots of blood?";
           data.A17=text;
           console.log(score);
-          if (score<=0){
-            data.guess="No Covid-19";
-          }
-          else if (score>=0){
-            data.guess="Covid-19";
-          }
-          var database=firebase.database();
-          var Ref = database.ref("results/");
-          Ref.push(data);
-          Ref.on('value', gotData, errData);
-          speak("You "+data.guess);
-          addmessage("You "+data.guess);
         }
         else if (text.includes("no")||text.includes("nah")){
           score-=5;
@@ -877,20 +865,13 @@ function replyQ17(){
           data.Q17="Do you cough up lots of blood?";
           data.A17=text;
           console.log(score);
-          if (score<=0){
-            data.guess="No Covid-19";
-          }
-          else if (score>=0){
-            data.guess="Covid-19";
-          }
+        
           var database=firebase.database();
           var Ref = database.ref("results/");
           Ref.push(data);
-          Ref.once('value', gotData, errData);
-          speak("You "+data.guess);
-          addmessage("You "+data.guess);
-        }
-  
+          Ref.on('value', gotData, errData);
+
+        }  
         else{
           score+=10;
           addmessage(text);
@@ -898,11 +879,12 @@ function replyQ17(){
           data.Q17="Do you cough up lots of blood?";
           data.A17=text;
           console.log(score);
-          if (score<=0){
-            data.guess="Don't have Covid-19";
+        }
+        if (score<=0){
+            data.guess="Don't have Covid 19";
           }
           else if (score>=0){
-            data.guess="Have Covid-19";
+            data.guess="Have Covid 19";
           }
           var database=firebase.database();
           var Ref = database.ref("results/");
@@ -912,7 +894,7 @@ function replyQ17(){
           addmessage("You "+data.guess);
         }
     }
-}
+
 
 function gotData(data){
   var info=data.val();
