@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bot.css')}}">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Covid-19 Contactless Test</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" href="#">Contactless Covid Diagnostic Test</a>
+              </div>
+              <ul class="nav navbar-nav">
+                <li><a href="#" onclick="home()">Home</a></li>
+                <li class="active"><a href="#">Diagnostic Test</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" onclick="signup()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              </ul>
+            </div>
+          </nav>
+            <script>
+                function home(){
+                  window.location.replace("http://127.0.0.1:5000/");
+                }
+                function login(){
+                  window.location.replace("http://127.0.0.1:5000/login");
+                }
+                function signup(){
+                  window.location.replace("http://127.0.0.1:5000/signup");
+                }
+            </script>
+            <div class="container">
+                <h3>Contactless Covid Diagnostic Test</h3>
+                <div class="messaging">
+                      <div class="inbox_msg">
+                
+                        <div class="mesgs">
+                          <div class="msg_history">
+                            <div class="incoming_msg">
+                              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                              <div class="received_msg">
+                                <div class="received_withd_msg">
+                                  <p>Say Start to Begin</p>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="outgoing_msg">
+                              <div class="sent_msg">
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                </div>
+                            </div>
+                            <div class="incoming_msg">
+                              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                              <div class="received_msg">
+                                <div class="received_withd_msg">
+                                  <p>Test, which is a new approach to have</p>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="outgoing_msg">
+                              <div class="sent_msg">
+                                <p>Apollo University, Delhi, India Test</p>
+                                </div>
+                            </div>
+                            <div class="incoming_msg">
+                              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                              <div class="received_msg">
+                                <div class="received_withd_msg">
+                                  <p>We work directly with our designers and suppliers,
+                                    and sell direct to you, which means quality, exclusive
+                                    products, at a price anyone can afford.</p>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                
+                        </div>
+                      </div>
+                    
+                  </div>
+
+    </body>

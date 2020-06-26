@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <title>Sign in</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Covid-19 Contactless Test</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Contactless Covid Diagnostic Test</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="#" onclick="home()">Home</a></li>
+        <li><a href="#" onclick="diagnosticTest()">Diagnostic Test</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#" onclick="logindirect()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </nav>
+    <script>
+        function home(){
+          window.location.replace("http://127.0.0.1:5000/");
+        }
+        function logindirect(){
+          window.location.replace("http://127.0.0.1:5000/login");
+        }
+        function diagnosticTest(){
+        window.location.replace("http://127.0.0.1:5000/bot");
+        }
+    </script>
+    <p class="sign" align="center">Only Sign Up if You Are a Doctor</p>
+  <div class="main">
+    <p class="sign" align="center">Sign up</p>
+    <form class="form1">
+      <input class="pass" id="fname" type="text" align="center" placeholder="First Name">
+      <input class="pass" id="lname" type="text" align="center" placeholder="Last Name">
+      <input class="un" id="username" type="text" align="center" placeholder="Username">
+      <input class="pass" id="password" type="password" align="center" placeholder="Password">
+      
+      <button class="submit" type="button" align="center" onclick="signup()">Sign up</button>
+
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  
+  var firebaseConfig = {
+    apiKey: "AIzaSyA6WJe1nOKFi-kNCiQ8q4YU4UG_qf4fRsk",
+    authDomain: "contactless-covid.firebaseapp.com",
+    databaseURL: "https://contactless-covid.firebaseio.com",
+    projectId: "contactless-covid",
+    storageBucket: "contactless-covid.appspot.com",
+    messagingSenderId: "1087156250519",
+    appId: "1:1087156250519:web:09fb8e21dc5bcb99a846d2",
+    measurementId: "G-HC2B32S7T8"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  function signup(){
+  var database=firebase.database();
+  var userRef = database.ref("users/");
+  var firstName=document.getElementById("fname").value;
+  var lastName=document.getElementById("lname").value;
+  var username=document.getElementById("username").value;
+  var password=document.getElementById("password").value;
+  console.log(firstName, lastName, username, password);
+  var data= {
+        firstName: firstName,
+        lastName: lastName,
+        username:username,
+        password:password
+    };
+    userRef.push(data);
+console.log("sending data");
+}
+
+</script>
+           
+    </div>
+     
+</body>
+
+</html>

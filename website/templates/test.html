@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>JS methods</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bot.css')}}">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Covid-19 Contactless Test</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Contactless Covid Diagnostic Test</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="#" onclick="home()">Home</a></li>
+            <li class="active"><a href="#">Diagnostic Test</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" onclick="signup()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </nav>
+        <script>
+            function home(){
+              window.location.replace("http://127.0.0.1:5000/");
+            }
+            function login(){
+              window.location.replace("http://127.0.0.1:5000/login");
+            }
+            function signup(){
+              window.location.replace("http://127.0.0.1:5000/signup");
+            }
+        </script>
+        <div class="container">
+            <h3>Contactless Covid Diagnostic Test</h3>
+            <div class="messaging" >
+                  <div class="inbox_msg" >
+                    <div class="mesgs" >
+                      <div class="msg_history" id="msg_history">
+                        <div class="incoming_msg">
+                          <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"> </div>
+                          <div class="received_msg">
+                            <div class="received_withd_msg">
+                              <p>Say Hello immediately to Begin</p>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="outgoing_msg">
+                          <div class="sent_msg">
+                            <p>this is a test message and isn't part of the Contactless Covid Diagnostic Test, please follow the instructions and continue the diagnostic test</p>
+                            </div>
+                        </div>
+                      </div>
+            
+                    </div>
+                  </div>
+                
+              </div>
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+      <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+      <script type="text/javascript">
+        // Your web app's Firebase configuration
+        
+        var firebaseConfig = {
+          apiKey: "AIzaSyA6WJe1nOKFi-kNCiQ8q4YU4UG_qf4fRsk",
+          authDomain: "contactless-covid.firebaseapp.com",
+          databaseURL: "https://contactless-covid.firebaseio.com",
+          projectId: "contactless-covid",
+          storageBucket: "contactless-covid.appspot.com",
+          messagingSenderId: "1087156250519",
+          appId: "1:1087156250519:web:09fb8e21dc5bcb99a846d2",
+          measurementId: "G-HC2B32S7T8"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        
+
+
+
+function speak(sentence){
+    speaks = [
+  {
+    "name": "Alex",
+    "lang": "en-US"
+  }
+];
+
+
+const msg = new SpeechSynthesisUtterance();
+msg.volume = 1; // 0 to 1
+msg.rate = 0.75; // 0.1 to 10
+msg.pitch = 1.5; // 0 to 2
+msg.text  = sentence;
+
+
+const voice = speaks[0]; //47
+console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
+msg.voiceURI = voice.name;
+msg.lang = voice.lang;
+
+
+speechSynthesis.speak(msg);
+
+}
+var score=0;
+var data={};
+var text="";
+var firstName="";
+var lastName="";
+function replystart(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("hello")){
+        addmessage(text);
+        speak("hello welcome to the contactless covid diagnostic center, your test will begin now");
+        getmessage("hello welcome to the contactless covid diagnostic center, your test will begin now");
+        speak("What is your first name?");
+        getmessage("What is your first name?");
+        setTimeout(replyfname, 8000);
+        }
+        else{
+            console.log("trying again");
+            recognition.abort();
+            reply();
+        }
+    recognition.onnomatch= function() { 
+        console.log("couldn't understand");
+        reply();
+    }
+    }
+    
+}
+function replyfname(){
+  window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        addmessage(text);
+        firstName=text;
+        data.firstName=text;
+        speak("What is your last name?");
+        getmessage("What is your last name?");
+        autoscroll();
+        setTimeout(replylname, 3000);
+    }
+}
+function replylname(){
+  window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        lastName=text;
+        console.log(text);
+        addmessage(text);
+        data.lastName=text;
+        speak("Question 1: What is your race?");
+        getmessage("Question 1: What is your race?");
+        autoscroll();
+        setTimeout(replyQ1, 3000);
+    }
+  
+}
+function replyQ1(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("black")||text.includes("african")||text.includes("latino")){
+          score+=3;
+          console.log(text);
+          addmessage(text);
+          data.Q1="What is your race?";
+          data.A1=text;
+          speak("Question 2: What is your gender?");
+          getmessage("Question 2: What is your gender?");
+          autoscroll();
+          setTimeout(replyQ2, 5000);
+          
+        }
+        else{
+          addmessage(text);
+          data.Q1="What is your race?";
+          data.A1=text;
+          speak("Question 2: What is your gender?");
+          getmessage("Question 2: What is your gender?");
+          autoscroll();
+          setTimeout(replyQ2, 3000);
+          
+        }
+    }
+}
+function replyQ2(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("boy")||text.includes("male")||text.includes("man")||text.includes("mail")||text.includes("milk")||text.includes("meal")){
+          score+=6;
+          console.log(text);
+          addmessage(text);
+          data.Q2="What is your gender?";
+          data.A2=text;
+          speak("Question 3: have you been in contact with anyone who has a confirmed covid 19 diagnosis in the past 14 days?");
+          getmessage("Question 3: have you been in contact with anyone who has a confirmed covid-19 diagnosis in the past 14 days?");
+          autoscroll();
+          setTimeout(replyQ3, 9000);
+          
+        }
+        else if (text.includes("girl")||text.includes("female")||text.includes("woman")){
+          score+=3;
+          console.log(text);
+          addmessage(text);
+          data.Q2="What is your gender?";
+          data.A2=text;
+          speak("Question 3: have you been in contact with anyone who has a confirmed covid 19 diagnosis in the past 14 days?");
+          getmessage("Question 3: have you been in contact with anyone who has a confirmed covid-19 diagnosis in the past 14 days?");
+          autoscroll();
+          setTimeout(replyQ3, 9000);
+          
+        }
+        else{
+          score+=4.5;
+          addmessage(text);
+          data.Q2="What is your gender?";
+          data.A2=text;
+          speak("Question 3: have you been in contact with anyone who has a confirmed covid 19 diagnosis in the past 14 days?");
+          getmessage("Question 3: have you been in contact with anyone who has a confirmed covid-19 diagnosis in the past 14 days?");
+          autoscroll();
+          setTimeout(replyQ3, 9000);
+          
+        }
+    }
+}
+    function replyQ3(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q3="have you been in contact with anyone who has a confirmed covid 19 diagnosis in the past 14 days?";
+          data.A3=text;
+          speak("Question 4: Do you have a cough?");
+          getmessage("Question 4: Do you have a cough?");
+          autoscroll();
+          setTimeout(replyQ4, 3000);
+
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q3="have you been in contact with anyone who has a confirmed covid 19 diagnosis in the past 14 days?";
+          data.A3=text;
+          speak("Question 4: Do you have a cough?");
+          getmessage("Question 4: Do you have a cough?");
+          autoscroll();
+          setTimeout(replyQ4, 3000);
+
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q3="have you been in contact with anyone who has a confirmed covid 19 diagnosis in the past 14 days?";
+          data.A3=text;
+          speak("Question 4: Do you have a cough?");
+          getmessage("Question 4: Do you have a cough?");
+          autoscroll();
+          setTimeout(replyQ4, 3000);
+        }
+        
+    }
+
+}
+function replyQ4(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q4="Do you have a cough?";
+          data.A4=text;
+          speak("Question 5: Do you have a sore throat?");
+          getmessage("Question 5: Do you have a sore throat?");
+          autoscroll();
+          setTimeout(replyQ5, 3000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q4="Do you have a cough?";
+          data.A4=text;
+          speak("Question 5: Do you have a sore throat?");
+          getmessage("Question 5: Do you have a sore throat?");
+          autoscroll();
+          setTimeout(replyQ5, 3000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q4="Do you have a cough?";
+          data.A4=text;
+          speak("Question 5: Do you have a sore throat?");
+          getmessage("Question 5: Do you have a sore throat?");
+          autoscroll();
+          setTimeout(replyQ5, 3000);
+        }
+    }
+}
+function replyQ5(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q5="Do you have a sore throat?";
+          data.A5=text;
+          speak("Question 6: Do you have a fever?");
+          getmessage("Question 6: Do you have a fever?");
+          autoscroll();
+          setTimeout(replyQ6, 3000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q5="Do you have a sore throat?";
+          data.A5=text;
+          speak("Question 6: Do you have a fever?");
+          getmessage("Question 6: Do you have a fever?");
+          autoscroll();
+          setTimeout(replyQ6, 3000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q5="Do you have a sore throat?";
+          data.A5=text;
+          speak("Question 6: Do you have a fever?");
+          getmessage("Question 6: Do you have a fever?");
+          autoscroll();
+          setTimeout(replyQ6, 3000);
+        }
+    }
+}
+function replyQ6(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q6="Do you have a fever?";
+          data.A6=text;
+          speak("Question 7: Do you have a shortness of breath?");
+          getmessage("Question 7: Do you have a shortness of breath?");
+          autoscroll();
+          setTimeout(replyQ7, 4000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q6="Do you have a fever?";
+          data.A6=text;
+          speak("Question 7: Do you have a shortness of breath?");
+          getmessage("Question 7: Do you have a shortness of breath?");
+          autoscroll();
+          setTimeout(replyQ7, 4000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q6="Do you have a fever?";
+          data.A6=text;
+          speak("Question 7: Do you have a shortness of breath?");
+          getmessage("Question 7: Do you have a shortness of breath?");
+          autoscroll();
+          setTimeout(replyQ7, 4000);
+        }
+    }
+}
+function replyQ7(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q7="Do you have a shortness of breath?";
+          data.A7=text;
+          speak("Question 8: Do you have muscle aches?");
+          getmessage("Question 8: Do you have muscle aches?");
+          autoscroll();
+          setTimeout(replyQ8, 3000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q7="Do you have a shortness of breath?";
+          data.A7=text;
+          speak("Question 8: Do you have muscle aches?");
+          getmessage("Question 8: Do you have muscle aches?");
+          autoscroll();
+          setTimeout(replyQ8, 3000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q7="Do you have a shortness of breath?";
+          data.A7=text;
+          speak("Question 8: Do you have muscle aches?");
+          getmessage("Question 8: Do you have muscle aches?");
+          autoscroll();
+          setTimeout(replyQ8, 3000);
+        }
+    }
+}
+function replyQ8(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q8="Do you have muscle aches?";
+          data.A8=text;
+          speak("Question 9: Do you experience unexplained loss of taste or smell?");
+          getmessage("Question 9: Do you experience unexplained loss of taste or smell?");
+          autoscroll();
+          setTimeout(replyQ9, 5000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q8="Do you have muscle aches?";
+          data.A8=text;
+          speak("Question 9: Do you experience unexplained loss of taste or smell?");
+          getmessage("Question 9: Do you experience unexplained loss of taste or smell?");
+          autoscroll();
+          setTimeout(replyQ9, 5000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q8="Do you have muscle aches?";
+          data.A8=text;
+          speak("Question 9: Do you experience unexplained loss of taste or smell?");
+          getmessage("Question 9: Do you experience unexplained loss of taste or smell?");
+          autoscroll();
+          setTimeout(replyQ9, 5000);
+        }
+    }
+}
+function replyQ9(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q9="Do you experience unexplained loss of taste or smell?";
+          data.A9=text;
+          speak("Question 10: Do you have diarrhea?");
+          getmessage("Question 10: Do you have diarrhea?");
+          autoscroll();
+          setTimeout(replyQ10, 3000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q9="Do you experience unexplained loss of taste or smell?";
+          data.A9=text;
+          speak("Question 10: Do you have diarrhea?");
+          getmessage("Question 10: Do you have diarrhea?");
+          autoscroll();
+          setTimeout(replyQ10, 3000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q9="Do you experience unexplained loss of taste or smell?";
+          data.A9=text;
+          speak("Question 10: Do you have diarrhea?");
+          getmessage("Question 10: Do you have diarrhea?");
+          autoscroll();
+          setTimeout(replyQ10, 3000);
+        }
+    }
+}
+function replyQ10(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q10="Do you have diarrhea?";
+          data.A10=text;
+          speak("Question 11: Do you have headaches?");
+          getmessage("Question 11: Do you have headaches?");
+          autoscroll();
+          setTimeout(replyQ11, 3000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q10="Do you have diarrhea?";
+          data.A10=text;
+          speak("Question 11: Do you have headaches?");
+          getmessage("Question 11: Do you have headaches?");
+          autoscroll();
+          setTimeout(replyQ11, 3000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q10="Do you have diarrhea?";
+          data.A10=text;
+          speak("Question 11: Do you have headaches?");
+          getmessage("Question 11: Do you have headaches?");
+          autoscroll();
+          setTimeout(replyQ11, 3000);
+        }
+    }
+}
+function replyQ11(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=25;
+          console.log(text);
+          addmessage(text);
+          data.Q11="Do you have headaches?";
+          data.A11=text;
+          speak("Question 12: Do you have severe shortness of breath?");
+          getmessage("Question 12: Do you have severe shortness of breath?");
+          autoscroll();
+          setTimeout(replyQ12, 4000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=20;
+          console.log(text);
+          addmessage(text);
+          data.Q11="Do you have headaches?";
+          data.A11=text;
+          speak("Question 12: Do you have severe shortness of breath?");
+          getmessage("Question 12: Do you have severe shortness of breath?");
+          autoscroll();
+          setTimeout(replyQ12, 4000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q11="Do you have headaches?";
+          data.A11=text;
+          speak("Question 12: Do you have severe shortness of breath?");
+          getmessage("Question 12: Do you have severe shortness of breath?");
+          autoscroll();
+          setTimeout(replyQ12, 4000);
+        }
+    }
+}
+function replyQ12(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=60;
+          console.log(text);
+          addmessage(text);
+          data.Q12="Do you have severe shortness of breath?";
+          data.A12=text;
+          speak("Question 13: Do you have crushing chest pain?");
+          getmessage("Question 13: Do you have crushing chest pain?");
+          autoscroll();
+          setTimeout(replyQ13, 4000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=5;
+          console.log(text);
+          addmessage(text);
+          data.Q12="Do you have severe shortness of breath?";
+          data.A12=text;
+          speak("Question 13: Do you have crushing chest pain?");
+          getmessage("Question 13: Do you have crushing chest pain?");
+          autoscroll();
+          setTimeout(replyQ13, 4000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q12="Do you have severe shortness of breath?";
+          data.A12=text;
+          speak("Question 13: Do you have crushing chest pain?");
+          getmessage("Question 13: Do you have crushing chest pain?");
+          autoscroll();
+          setTimeout(replyQ13, 4000);
+        }
+    }
+}
+function replyQ13(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=60;
+          console.log(text);
+          addmessage(text);
+          data.Q13="Do you have crushing chest pain?";
+          data.A13=text;
+          speak("Question 14: Do you have loss of consciousness?");
+          getmessage("Question 14: Do you have loss of consciousness?");
+          autoscroll();
+          setTimeout(replyQ14, 4000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=5;
+          console.log(text);
+          addmessage(text);
+          data.Q13="Do you have crushing chest pain?";
+          data.A13=text;
+          speak("Question 14: Do you have loss of consciousness?");
+          getmessage("Question 14: Do you have loss of consciousness?");
+          autoscroll();
+          setTimeout(replyQ14, 4000);
+        }
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q13="Do you have crushing chest pain?";
+          data.A13=text;
+          speak("Question 14: Do you have loss of consciousness?");
+          getmessage("Question 14: Do you have loss of consciousness?");
+          autoscroll();
+          setTimeout(replyQ14, 4000);
+        }
+    }
+}
+function replyQ14(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=60;
+          console.log(text);
+          addmessage(text);
+          data.Q14="Do you have loss of consciousness?";
+          data.A14=text;
+          speak("Question 15: Do you have a slurred speech?");
+          getmessage("Question 15: Do you have a slurred speech?");
+          autoscroll();
+          setTimeout(replyQ15, 4000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=5;
+          console.log(text);
+          addmessage(text);
+          data.Q14="Do you have loss of consciousness?";
+          data.A14=text;
+          speak("Question 15: Do you have a slurred speech?");
+          getmessage("Question 15: Do you have a slurred speech?");
+          autoscroll();
+          setTimeout(replyQ15, 4000);
+        }
+  
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q14="Do you have loss of consciousness?";
+          data.A14=text;
+          speak("Question 15: Do you have a slurred speech?");
+          getmessage("Question 15: Do you have a slurred speech?");
+          autoscroll();
+          setTimeout(replyQ15, 4000);
+        }
+    }
+}
+function replyQ15(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=60;
+          console.log(text);
+          addmessage(text);
+          data.Q15="Do you have slurred speech?";
+          data.A15=text;
+          speak("Question 16: Do you gasp for air?");
+          getmessage("Question 16: Do you gasp for air?");
+          autoscroll();
+          setTimeout(replyQ16, 3000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=5;
+          console.log(text);
+          addmessage(text);
+          data.Q15="Do you have slurred speech?";
+          data.A15=text;
+          speak("Question 16: Do you gasp for air?");
+          getmessage("Question 16: Do you gasp for air?");
+          autoscroll();
+          setTimeout(replyQ16, 3000);
+        }
+  
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q15="Do you have slurred speech?";
+          data.A15=text;
+          speak("Question 16: Do you gasp for air?");
+          getmessage("Question 16: Do you gasp for air?");
+          autoscroll();
+          setTimeout(replyQ16, 3000);
+        }
+    }
+}
+function replyQ16(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=60;
+          console.log(text);
+          addmessage(text);
+          data.Q16="Do you a gasp for air?";
+          data.A16=text;
+          speak("Question 17: Do you cough up lots of blood?");
+          getmessage("Question 17: Do you cough up lots of blood?");
+          autoscroll();
+          setTimeout(replyQ17, 4000);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=5;
+          console.log(text);
+          addmessage(text);
+          data.Q16="Do you gasp for air?";
+          data.A16=text;
+          speak("Question 17: Do you cough up lots of blood?");
+          getmessage("Question 17: Do you cough up lots of blood?");
+          autoscroll();
+          setTimeout(replyQ17, 4000);
+        }
+  
+        else{
+          score+=10;
+          addmessage(text);
+          data.Q16="Do you gasp for air?";
+          data.A16=text;
+          speak("Question 17: Do you cough up lots of blood?");
+          getmessage("Question 17: Do you cough up lots of blood?");
+          autoscroll();
+          setTimeout(replyQ17, 4000);
+        }
+    }
+}
+var covidcheck="";
+function replyQ17(){
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.start();
+    recognition.onresult = (event) => {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        if (text.includes("yes")||text.includes("yeah")){
+          score+=60;
+          console.log(text);
+          addmessage(text);
+          autoscroll();
+          data.Q17="Do you cough up lots of blood?";
+          data.A17=text;
+          console.log(score);
+          if (score<=0){
+            data.guess="No Covid-19";
+          }
+          else if (score>=0){
+            data.guess="Covid-19";
+          }
+          var database=firebase.database();
+          var Ref = database.ref("results/");
+          Ref.push(data);
+          Ref.on('value', gotData, errData);
+          speak("You "+data.guess);
+          addmessage("You "+data.guess);
+        }
+        else if (text.includes("no")||text.includes("nah")){
+          score-=5;
+          console.log(text);
+          addmessage(text);
+          autoscroll();
+          data.Q17="Do you cough up lots of blood?";
+          data.A17=text;
+          console.log(score);
+          if (score<=0){
+            data.guess="No Covid-19";
+          }
+          else if (score>=0){
+            data.guess="Covid-19";
+          }
+          var database=firebase.database();
+          var Ref = database.ref("results/");
+          Ref.push(data);
+          Ref.once('value', gotData, errData);
+          speak("You "+data.guess);
+          addmessage("You "+data.guess);
+        }
+  
+        else{
+          score+=10;
+          addmessage(text);
+          autoscroll();
+          data.Q17="Do you cough up lots of blood?";
+          data.A17=text;
+          console.log(score);
+          if (score<=0){
+            data.guess="Don't have Covid-19";
+          }
+          else if (score>=0){
+            data.guess="Have Covid-19";
+          }
+          var database=firebase.database();
+          var Ref = database.ref("results/");
+          Ref.push(data);
+          Ref.on('value', gotData, errData);
+          speak("You "+data.guess);
+          addmessage("You "+data.guess);
+        }
+    }
+}
+
+function gotData(data){
+  var info=data.val();
+    var keys=Object.keys(info);
+    console.log(keys);
+    for (var i=0; i<keys.length;i++){
+      var k=keys[i];
+      if (firstName==info[k].firstName && lastName==info[k].lastName){
+        covidcheck=(info[k].covid);
+
+
+      }
+      
+}
+}
+function errData(){
+  console.log("error")
+}
+function addmessage(msg){
+    var div1=document.createElement('div');
+    var div2=document.createElement('div');
+    var text=document.createElement('p');
+    var elemtext=document.createTextNode(msg);
+    div1.classList.add('outgoing_msg');
+    div2.classList.add('sent_msg');
+    text.appendChild(elemtext);
+    div2.appendChild(text);
+    div1.appendChild(div2);
+    document.getElementById("msg_history").appendChild(div1);
+}
+function autoscroll(){
+  var objDiv = document.getElementById("msg_history");
+  objDiv.scrollTop = objDiv.scrollHeight;
+}
+function getmessage(msg){
+    var div1=document.createElement('div');
+    var div2=document.createElement('div');
+    var div3=document.createElement('div');
+    var div4=document.createElement('div');
+    var text=document.createElement('p');
+    var elemtext=document.createTextNode(msg);
+    var img = document.createElement("img");
+    img.src = "https://ptetutorials.com/images/user-profile.png";
+
+    
+    div1.classList.add('incoming_msg');
+    div2.classList.add('incoming_msg_img');
+    div3.classList.add('received_msg');
+    div4.classList.add('received_withd_msg');
+    text.appendChild(elemtext);
+    div2.appendChild(img);
+    div4.appendChild(text);
+    div3.appendChild(div4);
+    div1.appendChild(div2);
+    div1.appendChild(div3);
+    document.getElementById("msg_history").appendChild(div1);
+}
+//speak("hello welcome to the contactless covid diagnostic center, say hello to get started");
+
+
+
+replystart();
+
+console.log("done");
+
+</script>
+
+</body>
+</html>

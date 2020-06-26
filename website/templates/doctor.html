@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='doctor.css')}}">
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        table.center {
+          margin-left:auto; 
+          margin-right:auto;
+        }
+        </style>
+        </head>
+        <body>
+        
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Our Guess</th>
+                <th>Check Our Guess</th>
+                <th>Verify</th>
+              </div>
+              </tr>
+            </thead>
+            <tbody id="body">
+            </tbody>
+          </table>
+          <div id="main">
+
+          </div>
+                <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  
+  var firebaseConfig = {
+    apiKey: "AIzaSyA6WJe1nOKFi-kNCiQ8q4YU4UG_qf4fRsk",
+    authDomain: "contactless-covid.firebaseapp.com",
+    databaseURL: "https://contactless-covid.firebaseio.com",
+    projectId: "contactless-covid",
+    storageBucket: "contactless-covid.appspot.com",
+    messagingSenderId: "1087156250519",
+    appId: "1:1087156250519:web:09fb8e21dc5bcb99a846d2",
+    measurementId: "G-HC2B32S7T8"
+  };
+  firstName=[];
+  lastName=[];
+  guess=[];
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var database=firebase.database();
+  var Ref = database.ref("results/");
+  Ref.on('value', gotData, errData);
+  var bigtext=[];
+  var smalltext="";
+  var lasttext=[];
+  function gotData(data){
+    
+    var info=data.val();
+    var keys=Object.keys(info);
+    console.log(keys);
+    firstName=[];
+    lastName=[];
+    guess=[];
+    for (var i=0; i<keys.length;i++){
+      var k=keys[i];
+      firstName.push(info[k].firstName);
+      lastName.push(info[k].lastName);
+      guess.push(info[k].guess);
+        bigtext.push(info[k].Q1);
+        bigtext.push(info[k].A1);
+        bigtext.push(info[k].Q2);
+        bigtext.push(info[k].A2);
+        bigtext.push(info[k].Q3);
+        bigtext.push(info[k].A3);
+        bigtext.push(info[k].Q4);
+        bigtext.push(info[k].A4);
+        bigtext.push(info[k].Q5);
+        bigtext.push(info[k].A5);
+        bigtext.push(info[k].Q6);
+        bigtext.push(info[k].A6);
+        bigtext.push(info[k].Q7);
+        bigtext.push(info[k].A7);
+        bigtext.push(info[k].Q8);
+        bigtext.push(info[k].A8);
+        bigtext.push(info[k].Q9);
+        bigtext.push(info[k].A9);
+        bigtext.push(info[k].Q10);
+        bigtext.push(info[k].A10);
+        bigtext.push(info[k].Q11);
+        bigtext.push(info[k].A11);
+        bigtext.push(info[k].Q12);
+        bigtext.push(info[k].A12);
+        bigtext.push(info[k].Q13);
+        bigtext.push(info[k].A13);
+        bigtext.push(info[k].Q14);
+        bigtext.push(info[k].A14);
+        bigtext.push(info[k].Q15);
+        bigtext.push(info[k].A15);
+        bigtext.push(info[k].Q16);
+        bigtext.push(info[k].A16);
+        bigtext.push(info[k].Q17);
+        bigtext.push(info[k].A17);
+        smalltext=bigtext[0] + " " + bigtext[1] + "; " + bigtext[2] + " " + bigtext[3] + "; " + bigtext[4] + " " + bigtext[5] + "; " + bigtext[6] + " " + bigtext[7] + "; " + bigtext[8] + " " + bigtext[9] + "; " + bigtext[10] + " " + bigtext[11] + "; " + bigtext[12] + " " + bigtext[13] + "; " + bigtext[14] + " " + bigtext[15] + "; " + bigtext[16] + " " + bigtext[17] + "; " + bigtext[18] + " " + bigtext[19] + "; " + bigtext[20] + " " + bigtext[21] + "; " + bigtext[22] + " " + bigtext[23] + "; " + bigtext[24] + " " + bigtext[25] + "; " + bigtext[26] + " " + bigtext[27] + "; " + bigtext[28] + " " + bigtext[29] + "; " + bigtext[30] + " " + bigtext[31] + "; " + bigtext[32] + " " + bigtext[33]+"; ";
+        console.log(smalltext); 
+        lasttext.push(smalltext);
+    }
+    for (var x=0; x<firstName.length;x++){
+        addcolumn(firstName[x], lastName[x], guess[x], lasttext[x]);
+    }
+  }
+  function errData(){
+      console.log("error");
+  }
+  var tr="";
+  function addcolumn(etext1, etext2, etext3, maintext){
+    tr=document.createElement('tr');
+    var td1=document.createElement('td');
+    var td2=document.createElement('td');
+    var td3=document.createElement('td');
+    var td4=document.createElement('td');
+    var td5=document.createElement('td');
+    var div=document.createElement('div');
+    var text6=document.createTextNode("verify");
+    button2=document.createElement('button');
+    button2.appendChild(text6);
+    button2.classList.add("btn-primary");
+    button2.onclick=del;
+    div.setAttribute("id","demo");
+    div.classList.add("collapse");
+    var button=document.createElement('button');
+    button.classList.add("btn-primary");
+    button.setAttribute("data-toggle","collapse");
+    button.setAttribute("data-target","#demo");
+    var text1=document.createTextNode(etext1);
+    var text2=document.createTextNode(etext2);
+    var text3=document.createTextNode(etext3);
+    var text4=document.createTextNode("Show");
+    var text5=document.createTextNode(maintext);
+    div.appendChild(text5);
+    button.appendChild(text4);
+    td5.appendChild(button2);
+    td1.appendChild(text1);
+    td2.appendChild(text2);
+    td3.appendChild(text3);
+    td4.appendChild(button);
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+    document.getElementById("body").appendChild(tr);
+    document.getElementById("main").appendChild(div);
+  }
+    function del(){
+        tr.parentNode.removeChild(tr);
+    }
+
+</script>
+        
+</body>
+</html>

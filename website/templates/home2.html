@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/static/background_image.jpg");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+</style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Covid-19 Contactless Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+  body {
+    background-image: url("static/background_image.jpg");
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+/*href="C:/Users/toniv/bootstrap-4.5.0-dist*/
+</style>
+<link rel="stylesheet" type="text/css" href="spacing.css">
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Contactless Covid Diagnostic Test</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#" onclick="diagnosticTest()">Diagnostic Test</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" onclick="signup()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+    </nav>
+    <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+        <div class="w3-display-left w3-text-white" style="padding:48px">
+        <div class="center">
+          <span class="w3-jumbo w3-hide-small">Contactless Covid Diagnostic Test</span><br>
+          <span class="w3-xxlarge w3-hide-large w3-hide-medium">Contactless Covid Diagnostic Test</span><br>
+          
+          <span class="w3-large">Testing for covid-19 remade with contactless tests</span>
+          <p><button onclick="diagnosticTest()" class="w3-button w3-teal w3-padding-large w3-large w3-margin-top w3-hover-green">Take the Test</button></p>
+        </div>
+        <style>
+            .center{
+                text-align: center;
+            }
+        </style>
+        </div>
+          
+         
+    </header>
+    <script>
+        function diagnosticTest(){
+          window.location.replace("http://127.0.0.1:5000/bot");
+        }
+        function login(){
+          window.location.replace("http://127.0.0.1:5000/login");
+        }
+        function signup(){
+          window.location.replace("http://127.0.0.1:5000/signup");
+        }
+    </script>
+</body>
