@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Covid-19 Contactless Test</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        background-image: url("static/background_image.jpg");
+        height: 100%;
+        /* Center and scale the image nicely */
+        background-position: top;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    /*href="C:/Users/toniv/bootstrap-4.5.0-dist*/
+    </style>
+    <link rel="stylesheet" type="text/css" href="spacing.css">
+	</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Contactless Covid Diagnostic Test</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#" onclick="diagnosticTest()">Diagnostic Test</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#" onclick="signup()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container" >
+  <div class="mt-5">
+    <h1 class="text-default">Contactless Covid Diagnostic Test</h1>
+  </div>
+  <div style="width:180px;" align="center">
+    <button type="button" onclick="diagnosticTest()" class="btn btn-info btn-lg">Get Started</button>
+  </div>
+  <script>
+      function diagnosticTest(){
+        window.location.replace("http://127.0.0.1:5000/bot");
+      }
+      function login(){
+        window.location.replace("http://127.0.0.1:5000/login");
+      }
+      function signup(){
+        window.location.replace("http://127.0.0.1:5000/signup");
+      }
+  </script>
+</div>
+<div class="container" >
+</div>
+</body>
+</html>
